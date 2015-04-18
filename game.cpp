@@ -9,6 +9,11 @@ Game::Game()
     this->curMouse.y = 0;
     this->curMouse.button = 0;
     this->curMouse.isDown = false;
+
+    projection = glm::ortho(-400, 400, 300, -300, -100, 100);
+    camera_position = glm::vec3(0.0f, 100.f, -100.f);
+    camera_lookat = glm::vec3(0.f, 0.f, 0.f);
+    view = View();
     return;
 }
 
@@ -97,3 +102,7 @@ void Game::update()
     return;
 }
 
+glm::mat4 Game::View()
+{
+    return (view = glm::lookAt(camera_position, camera_lookat, glm::vec3(0.0f, 1.0f, 0.0f)));
+}

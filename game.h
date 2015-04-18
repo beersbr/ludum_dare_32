@@ -1,5 +1,6 @@
 #include <SDL2/sdl.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #ifndef GAME_H
 #define GAME_H
 
@@ -64,11 +65,22 @@ class Game
         void HandleEvent(SDL_Event& event);
         void DoUpdate();
         bool IsRunning();
+
+    public:
+        glm::vec3 camera_position;
+        glm::vec3 camera_lookat;
+
+        // NOTE(brett): camera always points at 0,0,0
+        glm::mat4 projection;
+
+        glm::mat4 View();
+
     private:
         World* curWorld;
         MouseState curMouse;
         void update();
         bool running;
+        glm::mat4 view;
 };
 
 #endif
