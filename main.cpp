@@ -2,12 +2,16 @@
 #include <SDL2/sdl.h>
 #include <SDL2/sdl_opengl.h>
 
+#include "game.h"
+
 int main(int argc, char *argv[])
 {
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		exit(1);
 	}
+    
+    Game masterGame;
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -29,34 +33,16 @@ int main(int argc, char *argv[])
 	SDL_Event event;
 
 
-	while(running)
+	while(masterGame.IsRunning())
 	{
-		while(SDL_PollEvent(&event))
-		{
-			switch(event.type)
-			{
-				case SDL_KEYDOWN:
-				{
-
-					break;
-				}
-				case SDL_KEYUP:
-				{
-
-					break;
-				}
-				case SDL_QUIT:
-				{
-					break;
-				}
-			}
-		}
-
+		SDL_PollEvent(&event);
+        
+        masterGame.HandleEvent(event);
+        
 		glClearColor(1.0, 0.0, 1.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		SDL_GL_SwapWindow(window);
-
 	}
 
 	SDL_Quit();
