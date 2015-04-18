@@ -48,6 +48,14 @@ typedef struct
     void* enemyPtrs;
 } World;
 
+typedef struct
+{
+    unsigned int x;
+    unsigned int y;
+    unsigned char button;
+    bool isDown;
+} MouseState;
+
 class Game
 {
     public:
@@ -58,9 +66,9 @@ class Game
         bool IsRunning();
     private:
         World* curWorld;
+        MouseState curMouse;
         void update();
         bool running;
-       
 };
 
 #endif
