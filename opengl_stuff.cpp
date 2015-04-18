@@ -64,5 +64,9 @@ GLuint compile_shader_program(std::string path, GLenum type)
 std::ifstream::pos_type get_filesize(std::string filename)
 {
 	std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+	if(!in)
+	{
+		return -2;
+	}
 	return in.tellg();
 }

@@ -38,7 +38,6 @@ int main(int argc, char *argv[])
 	bool running = true;
 	SDL_Event event;
 
-
 	GLuint VAO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -47,16 +46,20 @@ int main(int argc, char *argv[])
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+	GLuint shader = load_shader_program("shaders/simple.vertex.glsl", "shaders/simple.fragment.glsl");
+
 	float square[] = {
-		-0.5f, 0.5f,
-		-0.5f, -0.5f,
-		0.5f, 0.5f,
-		0.5f, 0.5f,
-		-0.5f, -0.5f,
-		0.5f, -0.5f
+		-0.5f,  0.5f, 0.f,
+		-0.5f, -0.5f, 0.f, 
+		 0.5f,  0.5f, 0.f,
+		 0.5f,  0.5f, 0.f,
+		-0.5f, -0.5f, 0.f,
+		 0.5f, -0.5f, 0.f
 	};
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(square), square, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, (void *)0);
 
 	while(masterGame.IsRunning())
 	{
