@@ -51,3 +51,4 @@ thirdparty/*
 *.exe
 *.manifest
 *.dll
+*.exe
