@@ -3,17 +3,41 @@
 
 Game::Game()
 {
-    this->running = true;
-    this->curWorld = NULL;
-    this->curMouse.x = 0;
-    this->curMouse.y = 0;
-    this->curMouse.button = 0;
-    this->curMouse.isDown = false;
-
+    running = true;
+    curWorld = NULL;
+    curMouse.x = 0;
+    curMouse.y = 0;
+    curMouse.button = 0;
+    curMouse.isDown = false;
+    curRound = 0;
     projection = glm::ortho(-400, 400, 300, -300, -100, 100);
     camera_position = glm::vec3(0.0f, 100.f, -100.f);
     camera_lookat = glm::vec3(0.f, 0.f, 0.f);
     view = View();
+    
+    rounds = (Round*)malloc(sizeof(Round) * 10);
+    Round* tmpRound = rounds;
+    
+    for(int i = 0; i < 10; i++)
+    {
+        //Initialize some dummy rounds
+        //Enemy count will only be one right now
+        tmpRound->enemies = (EnemyCount*)malloc(sizeof(EnemyCount));
+        EnemyCount* curEn = tmpRound->enemies;
+        curEn->count = (i + 1)*5;
+        curEn->EType = GOON;
+        curEn->path = (glm::vec3*)malloc(sizeof(glm::vec3) * 3);
+        glm::vec3* tmpVec3 = curEn->path;
+        tmpVec3->x = 0;
+        tmpVec3->y = 0;
+        tmpVec3++;
+        tmpVec3->x = 400;
+        tmpVec3->y = 300;
+        tmpVec3++;
+        tmpVec3->x = 800;
+        tmpVec3->y = 600;
+        tmpRound++;
+    }
     return;
 }
 
