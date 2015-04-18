@@ -1,6 +1,14 @@
 
+#include <iostream>
+
 #include <SDL2/sdl.h>
+#include <GL/glew.h>
 #include <SDL2/sdl_opengl.h>
+
+#include <glm/glm.hpp>
+
+#include "opengl_stuff.h"
+#include "opengl_stuff.cpp"
 
 int main(int argc, char *argv[])
 {
@@ -24,32 +32,34 @@ int main(int argc, char *argv[])
 
 	SDL_GLContext gl_context = SDL_GL_CreateContext(window);
 
+	glewExperimental = GL_TRUE;
+	GLenum err = glewInit();
+	if(err != GLEW_OK)
+	{
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		std::cout << "coudl not init glew" << std::endl;
+	}
+	
 
 	bool running = true;
 	SDL_Event event;
+
+	GLuint simple_shader = load_shader_program("shaders/simple.vertex.glsl", "shaders/simple.fragment.glsl");
+
+	GLuint VAO = 0;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	GLuint VBO = 0;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 
 	while(running)
 	{
 		while(SDL_PollEvent(&event))
 		{
-			switch(event.type)
-			{
-				case SDL_KEYDOWN:
-				{
 
-					break;
-				}
-				case SDL_KEYUP:
-				{
-
-					break;
-				}
-				case SDL_QUIT:
-				{
-					break;
-				}
-			}
 		}
 
 		glClearColor(1.0, 0.0, 1.0, 1.0);
