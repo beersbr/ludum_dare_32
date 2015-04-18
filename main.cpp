@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include <SDL2/sdl_opengl.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "opengl_stuff.h"
 #include "opengl_stuff.cpp"
 #include "game.h"
@@ -68,7 +71,7 @@ int main(int argc, char *argv[])
         masterGame.HandleEvent(event);
         
 		glClearColor(1.0, 0.0, 1.0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
