@@ -1,14 +1,12 @@
 
-#include <iostream>
-
 #include <SDL2/sdl.h>
 #include <GL/glew.h>
 #include <SDL2/sdl_opengl.h>
 
-#include <glm/glm.hpp>
-
 #include "opengl_stuff.h"
 #include "opengl_stuff.cpp"
+#include "game.h"
+#include "game.cpp"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +14,8 @@ int main(int argc, char *argv[])
 	{
 		exit(1);
 	}
+    
+    Game masterGame;
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -33,40 +33,43 @@ int main(int argc, char *argv[])
 	SDL_GLContext gl_context = SDL_GL_CreateContext(window);
 
 	glewExperimental = GL_TRUE;
-	GLenum err = glewInit();
-	if(err != GLEW_OK)
-	{
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-		std::cout << "coudl not init glew" << std::endl;
-	}
-	
+	glewInit();
 
 	bool running = true;
 	SDL_Event event;
 
-	GLuint simple_shader = load_shader_program("shaders/simple.vertex.glsl", "shaders/simple.fragment.glsl");
 
-	GLuint VAO = 0;
+	GLuint VAO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	GLuint VBO = 0;
+	GLuint VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+	float square[] = {
+		-0.5f, 0.5f,
+		-0.5f, -0.5f,
+		0.5f, 0.5f,
+		0.5f, 0.5f,
+		-0.5f, -0.5f,
+		0.5f, -0.5f
+	};
 
-	while(running)
+	glBufferData(GL_ARRAY_BUFFER, sizeof(square), square, GL_STATIC_DRAW);
+
+	while(masterGame.IsRunning())
 	{
-		while(SDL_PollEvent(&event))
-		{
-
-		}
-
+		SDL_PollEvent(&event);
+        
+        masterGame.HandleEvent(event);
+        
 		glClearColor(1.0, 0.0, 1.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		SDL_GL_SwapWindow(window);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
+		SDL_GL_SwapWindow(window);
 	}
 
 	SDL_Quit();

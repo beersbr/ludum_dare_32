@@ -47,5 +47,8 @@ Temporary Items
 *.bat
 *.pdb
 third_party/*
+thirdparty/*
+*.exe
 *.manifest
 *.dll
+*.exe
