@@ -1,9 +1,10 @@
+#ifndef GAME_H
+#define GAME_H
 #include <SDL2/sdl.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#ifndef GAME_H
-#define GAME_H
-
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 enum EnemyType { GOON, GOBLIN, ASSHOLE };
 enum TowerType { SHOOTER, SHOTTER, FLOCKA };
@@ -92,6 +93,7 @@ class Game
         Round* rounds;
         unsigned int curRound;
         MouseState curMouse;
+        Round* generateRound();
         void update();
         void startRound();
         bool running;

@@ -20,30 +20,38 @@ Game::Game()
     
     for(int i = 0; i < 10; i++)
     {
-        //Initialize some dummy rounds
-        //Enemy count will only be one right now
-        tmpRound->enemies = (EnemyCount*)malloc(sizeof(EnemyCount));
-        EnemyCount* curEn = tmpRound->enemies;
-        curEn->count = (i + 1)*5;
-        curEn->EType = GOON;
-        curEn->path = (glm::vec3*)malloc(sizeof(glm::vec3) * 3);
-        glm::vec3* tmpVec3 = curEn->path;
-        tmpVec3->x = 0;
-        tmpVec3->y = 0;
-        tmpVec3++;
-        tmpVec3->x = 400;
-        tmpVec3->y = 300;
-        tmpVec3++;
-        tmpVec3->x = 800;
-        tmpVec3->y = 600;
+        tmpRound = generateRound();
         tmpRound++;
     }
+    
     return;
 }
 
 Game::~Game()
 {
 
+}
+
+Round* Game::generateRound()
+{
+    //Initialize some dummy rounds
+    //Enemy count will only be one right now
+    Round* tmpRound = (Round*)malloc(sizeof(Round));
+    tmpRound->enemies = (EnemyCount*)malloc(sizeof(EnemyCount));
+    EnemyCount* curEn = tmpRound->enemies;
+    curEn->count = (i + 1)*5;
+    curEn->EType = GOON;
+    curEn->path = (glm::vec3*)malloc(sizeof(glm::vec3) * 3);
+    glm::vec3* tmpVec3 = curEn->path;
+    tmpVec3->x = 0;     //Path just includes a spawn point, middle point and a goal point, a path should always have two elements;
+    tmpVec3->y = 0;
+    tmpVec3++;
+    tmpVec3->x = 400;
+    tmpVec3->y = 300;
+    tmpVec3++;
+    tmpVec3->x = 800;
+    tmpVec3->y = 600;
+    return tmpRound;
 }
 
 void Game::HandleEvent(SDL_Event& event)
@@ -75,7 +83,6 @@ void Game::HandleEvent(SDL_Event& event)
             //Set game's "target object" to whatever we're hovering over
             curMouse.x = event.button.x;
             curMouse.y = event.button.y;
-            
             break;
         }
         case SDL_MOUSEBUTTONDOWN:
