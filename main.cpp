@@ -137,6 +137,12 @@ int main(int argc, char *argv[])
 				if( event.button.button == SDL_BUTTON_RIGHT )
 				{
 
+					// NOTE(brett): figured it out. Basically we need to unproject two vectors because we are using an ortho NOT
+					// a perspective. So the starting point of our ray is NOT at the camera. so we cast a ray at the minimum depth of
+					// our view and one at the max length of our view and take the difference. This gives us a vector going from the front
+					// to the back. i assume it will work with a perspective as well, though we dont really need to unproject twice for
+					// a perspective matrix. The trick was remembering that the depth is a value from 0.0-1.0
+
 					std::cout << "x: " << event.button.x << " y: " << event.button.y << std::endl;
 					glm::vec3 ray = glm::unProject(glm::vec3(event.button.x, 600 - event.button.y, 0.f),
 												   masterGame.View(),
