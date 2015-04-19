@@ -22,10 +22,17 @@
 #define RED    glm::vec3(1.0f, 0.0f, 0.0f)
 #define GREEN  glm::vec3(0.0f, 1.0f, 0.0f)
 #define CYAN   glm::vec3(0.0f, 1.0f, 1.0f)
+#define PINK   glm::vec3(1.0f, 0.0f, 1.0f)
+#define YELLOW glm::vec3(1.0f, 1.0f, 0.0f)
+
+#define DARK_BLUE glm::vec3(0.0f, 0.0f, 0.5f)
  
 #define ZERO  glm::vec3(0.0f, 0.0f, 0.0f)
 
 #define PI 3.14159265
+
+static GLuint CurrentProgram;
+static GLuint CurrentVertexArray;
 
 typedef struct 
 {
@@ -36,6 +43,9 @@ typedef struct
 
 typedef struct
 {
+	GLuint VAO;
+	GLuint VBO;
+
 	GLuint *shader_id;
 	Vertex vertices[512];
 	int vertice_sz;
@@ -47,6 +57,8 @@ typedef struct
 } Mesh;
 
 void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id);
+
+void set_color(Mesh *m, glm::vec3 color);
 
 GLuint load_shader_program(std::string vertex_shader_path, std::string fragment_shader_path);
 

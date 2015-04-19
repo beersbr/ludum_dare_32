@@ -108,27 +108,27 @@ void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_
 	// top face
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f,  0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f, -0.5f);
 	m->vertices[m->vertice_sz].normal = PY;
-	m->vertices[m->vertice_sz].color = GREEN;
+	m->vertices[m->vertice_sz].color = DARK_BLUE;
 
 
 	// bottom face
@@ -163,7 +163,54 @@ void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_
 	m->scale = s;
 	m->shader_id = shader_id;
 
+	// GLuint VAO;
+	glGenVertexArrays(1, &m->VAO);
+	glBindVertexArray(m->VAO);
+
+	CurrentVertexArray = m->VAO;
+
+	// GLuint VBO;
+	glGenBuffers(1, &m->VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*m->vertice_sz, (GLfloat *)&m->vertices[0], GL_STREAM_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+
+
 }
+
+void set_color(Mesh *m, glm::vec3 color)
+{
+	if(!m)
+	{
+		#ifdef DEBUG_BUILD
+		std::cout << "The mesh pointer argument is null" << std::endl;
+		#endif
+		return;
+	}
+
+	for(int i = 0; i < m->vertice_sz; i++)
+	{
+		m->vertices[i].color = color;
+	}
+
+	if(m->VAO != CurrentVertexArray)
+	{
+		glBindVertexArray(m->VAO);
+		CurrentVertexArray = m->VAO;
+	}
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*m->vertice_sz, (GLfloat *)&m->vertices[0]);
+
+}
+
 
 GLuint load_shader_program(std::string vertex_shader_path, std::string fragment_shader_path)
 {

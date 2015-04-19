@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+
 	SDL_Window *window = SDL_CreateWindow("ludum dare 32",
 										  SDL_WINDOWPOS_UNDEFINED,
 										  SDL_WINDOWPOS_UNDEFINED,
@@ -43,32 +46,28 @@ int main(int argc, char *argv[])
 	bool running = true;
 	SDL_Event event;
 
+	glEnable(GL_MULTISAMPLE);
+
 	glEnable(GL_DEPTH_TEST);
-
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	GLuint shader = load_shader_program("shaders/simple.vertex.glsl", "shaders/simple.fragment.glsl");
 	glUseProgram(shader);
 
-	Mesh m = {};
-	prefab_cube(&m, ZERO, ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+	std::vector<Mesh> mesh_list;
 
+	for(int i = -5; i <= 5; i++)
+	{
+		for(int j = -5; j <= 5; j++)
+		{
+			Mesh m = {};
+			prefab_cube(&m, glm::vec3(i*50.f, 0.f, j*50.f), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+			mesh_list.push_back(m);
+		}
+	}
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*m.vertice_sz, (GLfloat *)&m.vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	#ifdef DEBUG_BUILD
+	std::cout << "Mesh List Size: " << mesh_list.size() << std::endl;
+	#endif
 
 	// NOTE(brett): do this once right now as we only have one shader;
 	GLint ProjectionLocation = glGetUniformLocation(shader, "projection");
@@ -108,14 +107,17 @@ int main(int argc, char *argv[])
 
 				if(event.key.keysym.sym == SDLK_s)
 				{
+
 					masterGame.camera_position.y -= 1;
+					if(masterGame.camera_position.y < 0)
+						masterGame.camera_position.y = 0;
 				}
 
 				if(event.key.keysym.sym == SDLK_a)
 				{
 					// masterGame.camera_position.x -= 1;
 
-					angle += 0.5f;
+					angle += 4.5f;
 					masterGame.camera_position.x = cos(angle * PI/180.f) * 5.f;
 					masterGame.camera_position.z = sin(angle * PI/180.f) * 5.f;
 				}
@@ -124,7 +126,7 @@ int main(int argc, char *argv[])
 				{
 					// masterGame.camera_position.x += 1;
 
-					angle -= 0.5f;
+					angle -= 4.5f;
 					masterGame.camera_position.x = cos(angle * PI/180.f) * 5.f;
 					masterGame.camera_position.z = sin(angle * PI/180.f) * 5.f;
 				}
@@ -135,15 +137,21 @@ int main(int argc, char *argv[])
 		glClearColor(0.2, 0.0, 0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, (GLfloat *)&masterGame.projection[0]);
-		glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, (GLfloat *)&masterGame.View()[0]);
+		for(int i = 0; i < mesh_list.size(); i++)
+		{
+			glBindVertexArray(mesh_list[i].VAO);
 
-		glm::mat4 model = glm::mat4();
-		model = glm::scale(model, m.scale);
+			glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, (GLfloat *)&masterGame.projection[0]);
+			glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, (GLfloat *)&masterGame.View()[0]);
 
-		glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, (GLfloat *)&model[0]);
+			glm::mat4 model = glm::mat4();
+			model = glm::translate(model, mesh_list[i].position);
+			model = glm::scale(model, mesh_list[i].scale);
 
-		glDrawArrays(GL_TRIANGLES, 0, m.vertice_sz);
+			glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, (GLfloat *)&model[0]);
+
+			glDrawArrays(GL_TRIANGLES, 0, mesh_list[i].vertice_sz);
+		}
 
 		SDL_GL_SwapWindow(window);
 	}
