@@ -55,12 +55,14 @@ int main(int argc, char *argv[])
 
 	std::vector<Mesh> mesh_list;
 
-	for(int i = -5; i <= 5; i++)
+	Mesh *mesh_map[10][10];
+
+	for(int i = -5; i < 5; i++)
 	{
-		for(int j = -5; j <= 5; j++)
+		for(int j = -5; j < 5; j++)
 		{
 			Mesh m = {};
-			prefab_cube(&m, glm::vec3(i*50.f, 0.f, j*50.f), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+			prefab_cube(&m, glm::vec3(i*50.f+25.f, 0.f, j*50.f+25.f), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
 			mesh_list.push_back(m);
 		}
 	}
@@ -101,7 +103,6 @@ int main(int argc, char *argv[])
 
 				if(event.key.keysym.sym == SDLK_w)
 				{
-					
 					masterGame.camera_position.y += 1;
 				}
 
@@ -170,6 +171,8 @@ int main(int argc, char *argv[])
 					#ifdef DEBUG_BUILD
 					std::cout << "point: " << ip.x << ", " << ip.y  << ", " << ip.z << std::endl;
 					#endif
+
+
 
 					// TODO(brett): Check the collision of the meshes just to test. Then give D some new meshes for the ai and towers.
 				}
