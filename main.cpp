@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 	{
 		exit(1);
 	}
-    
-    Game masterGame;
+	
+	Game masterGame;
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 
 	SDL_Window *window = SDL_CreateWindow("ludum dare 32",
 										  SDL_WINDOWPOS_UNDEFINED,
@@ -130,10 +130,45 @@ int main(int argc, char *argv[])
 					masterGame.camera_position.x = cos(angle * PI/180.f) * 5.f;
 					masterGame.camera_position.z = sin(angle * PI/180.f) * 5.f;
 				}
-
 			}
+
+			if(event.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if( event.button.button == SDL_BUTTON_RIGHT )
+				{
+
+					std::cout << "x: " << event.button.x << " y: " << event.button.y << std::endl;
+					glm::vec3 ray = glm::unProject(glm::vec3(event.button.x, 600 - event.button.y, 0.f),
+												   masterGame.View(),
+												   masterGame.projection,
+												   glm::vec4(0, 0, 800, 600));
+
+					#ifdef DEBUG_BUILD
+					std::cout << "ray: " << ray.x << ", " << ray.y << ", " << ray.z << std::endl;
+					#endif
+
+					glm::vec3 ray2 = glm::unProject(glm::vec3(event.button.x, 600 - event.button.y, 1.f),
+												   masterGame.View(),
+												   masterGame.projection,
+												   glm::vec4(0, 0, 800, 600));
+
+					#ifdef DEBUG_BUILD
+					std::cout << "ray2: " << ray2.x << ", " << ray2.y << ", " << ray2.z << std::endl;
+					#endif
+
+					glm::vec3 ip = intersectionPlanePoint(NY,
+														  glm::vec3(1.0f, 0.0f, 1.f),
+														  ray,
+														  glm::normalize(ray2 - ray));
+
+					#ifdef DEBUG_BUILD
+					std::cout << "point: " << ip.x << ", " << ip.y  << ", " << ip.z << std::endl;
+					#endif
+				}
+			}
+
 		}
-        
+		
 		glClearColor(0.2, 0.0, 0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

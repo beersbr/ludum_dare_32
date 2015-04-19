@@ -9,6 +9,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+
 #define PX glm::vec3( 1.0f,  0.0f,  0.0f)
 #define NX glm::vec3(-1.0f,  0.0f,  0.0f)
 #define PY glm::vec3( 0.0f,  1.0f,  0.0f)
@@ -55,6 +56,10 @@ typedef struct
 	glm::vec3 rotation;
 	glm::vec3 scale;
 } Mesh;
+
+bool intersectPlane(const glm::vec3 &n, const glm::vec3 &p0, const glm::vec3& l0, const glm::vec3 &l, float &t);
+
+glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const glm::vec3 &l0, const glm::vec3 &l);
 
 void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id);
 

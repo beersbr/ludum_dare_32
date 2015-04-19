@@ -1,5 +1,35 @@
 #include "opengl_stuff.h"
 
+bool intersectPlane(const glm::vec3 &n, const glm::vec3 &p0, const glm::vec3& l0, const glm::vec3 &l, float &t)
+{
+	// assuming vectors are all normalized
+	float denom = glm::dot(n, l);
+
+	std::cout << "dot: " << denom << std::endl;
+
+	if (denom > 1e-6) {
+		glm::vec3 p0l0 = p0 - l0;
+		t = glm::dot(p0l0, n) / denom;
+
+		return (t >= 0);
+	}
+	return false;
+}
+
+glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const glm::vec3 &l0, const glm::vec3 &l)
+{
+	float t = 0;
+	if(intersectPlane(n, p0, l0, l, t))
+	{	
+		glm::vec3 newL = l * t;
+		float d = glm::length(newL);
+		std::cout << "NEW L " << newL.x << ", " << newL.y << ", " << newL.z << std::endl;
+		std::cout << "MAGNITUDE: " << d << std::endl;
+		std::cout << l0.x << ", " << l0.y << ", " << l0.z << std::endl;
+		return (l0 + newL);
+	}
+}
+
 void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
 {
 	// back face
