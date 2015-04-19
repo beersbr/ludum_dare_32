@@ -170,6 +170,8 @@ int main(int argc, char *argv[])
 					#ifdef DEBUG_BUILD
 					std::cout << "point: " << ip.x << ", " << ip.y  << ", " << ip.z << std::endl;
 					#endif
+
+					// TODO(brett): Check the collision of the meshes just to test. Then give D some new meshes for the ai and towers.
 				}
 			}
 
