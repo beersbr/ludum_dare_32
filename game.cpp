@@ -6,9 +6,9 @@ Game::Game()
     this->running = true;
     this->curWorld = NULL;
 
-    projection = glm::ortho(-400, 400, 300, -300, -100, 100);
-    camera_position = glm::vec3(0.0f, 100.f, -100.f);
-    camera_lookat = glm::vec3(0.f, 0.f, 0.f);
+    projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
+    camera_position = glm::vec3(0.0f, 0.0f, 5.0f);
+    camera_lookat = ZERO;
     view = View();
 
     return;
@@ -66,5 +66,6 @@ void Game::update()
 
 glm::mat4 Game::View()
 {
-    return (view = glm::lookAt(camera_position, camera_lookat, glm::vec3(0.0f, 1.0f, 0.0f)));
+    view = glm::lookAt(camera_position, camera_lookat, glm::vec3(0.0f, 1.0f, 0.0f));
+    return view;
 }

@@ -1,4 +1,169 @@
-// #include "opengl_stuff.h"
+#include "opengl_stuff.h"
+
+void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
+{
+	// back face
+	m->vertice_sz = 0;
+	m->vertices[m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f); 
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f, -0.5f); 
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f, -0.5f); 
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f); 
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f); 
+	m->vertices[m->vertice_sz].normal = NZ;
+	m->vertices[m->vertice_sz].color = RED;
+
+	// right face
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PX;
+	m->vertices[m->vertice_sz].color = BLUE;
+
+	// front face
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PZ;
+	m->vertices[m->vertice_sz].color = WHITE;
+
+
+	// left face
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NX;
+	m->vertices[m->vertice_sz].color = CYAN;
+
+
+	// top face
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = PY;
+	m->vertices[m->vertice_sz].color = GREEN;
+
+
+	// bottom face
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
+	m->vertices[m->vertice_sz].normal = NY;
+	m->vertices[m->vertice_sz].color = BLACK;
+
+	m->vertice_sz += 1;
+
+	m->position = p;
+	m->rotation = r;
+	m->scale = s;
+	m->shader_id = shader_id;
+
+}
 
 GLuint load_shader_program(std::string vertex_shader_path, std::string fragment_shader_path)
 {
@@ -31,6 +196,11 @@ GLuint load_shader_program(std::string vertex_shader_path, std::string fragment_
 		std::cout << "[ERRRO " << __LINE__ << " ]: " << vertex_shader_path << "::" << fragment_shader_path << std::endl;
 		std::cout << message << std::endl;
 	}
+
+
+	#ifdef DEBUG_BUILD
+	std::cout << "Loaded the shader " << vertex_shader_path << "::" << fragment_shader_path << " -> " << program << std::endl;
+	#endif
 
 	return program;
 }
