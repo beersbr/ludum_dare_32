@@ -45,7 +45,7 @@ Round* Game::generateRound()
     Round* tmpRound = (Round*)malloc(sizeof(Round));
     tmpRound->enemies = (EnemyCount*)malloc(sizeof(EnemyCount));
     EnemyCount* curEn = tmpRound->enemies;
-    curEn->count = (i + 1)*5;
+    curEn->count = 5;
     curEn->EType = GOON;
     curEn->path = (glm::vec3*)malloc(sizeof(glm::vec3) * 3);
     glm::vec3* tmpVec3 = curEn->path;
