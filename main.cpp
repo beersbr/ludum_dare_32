@@ -75,6 +75,8 @@ int main(int argc, char *argv[])
 	GLint ViewLocation = glGetUniformLocation(shader, "view");
 	GLint ModelLocation = glGetUniformLocation(shader, "model");
 
+	float angle = 90.0f;
+
 	while(masterGame.IsRunning())
 	{
 		while(SDL_PollEvent(&event))
@@ -100,6 +102,7 @@ int main(int argc, char *argv[])
 
 				if(event.key.keysym.sym == SDLK_w)
 				{
+					
 					masterGame.camera_position.y += 1;
 				}
 
@@ -110,12 +113,20 @@ int main(int argc, char *argv[])
 
 				if(event.key.keysym.sym == SDLK_a)
 				{
-					masterGame.camera_position.x -= 1;
+					// masterGame.camera_position.x -= 1;
+
+					angle += 0.5f;
+					masterGame.camera_position.x = cos(angle * PI/180.f) * 5.f;
+					masterGame.camera_position.z = sin(angle * PI/180.f) * 5.f;
 				}
 
 				if(event.key.keysym.sym == SDLK_d)
 				{
-					masterGame.camera_position.x += 1;
+					// masterGame.camera_position.x += 1;
+
+					angle -= 0.5f;
+					masterGame.camera_position.x = cos(angle * PI/180.f) * 5.f;
+					masterGame.camera_position.z = sin(angle * PI/180.f) * 5.f;
 				}
 
 			}

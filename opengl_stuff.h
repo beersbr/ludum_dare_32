@@ -25,6 +25,8 @@
  
 #define ZERO  glm::vec3(0.0f, 0.0f, 0.0f)
 
+#define PI 3.14159265
+
 typedef struct 
 {
 	glm::vec3 position;
