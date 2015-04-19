@@ -17,9 +17,6 @@ Game::Game()
     curMouse.button = 0;
     curMouse.isDown = false;
     curRound = 0;
-    projection = glm::ortho(-400, 400, 300, -300, -100, 100);
-    camera_position = glm::vec3(0.0f, 100.f, -100.f);
-    camera_lookat = glm::vec3(0.f, 0.f, 0.f);
     
     rounds = (Round*)malloc(sizeof(Round) * 10);
     Round* tmpRound = rounds;

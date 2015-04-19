@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-
 	// NOTE(brett): do this once right now as we only have one shader;
 	GLint ProjectionLocation = glGetUniformLocation(shader, "projection");
 	GLint ViewLocation = glGetUniformLocation(shader, "view");
