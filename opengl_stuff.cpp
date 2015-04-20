@@ -21,9 +21,9 @@ glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const 
 		float d = glm::length(newL);
 
 		#ifdef DEBUG_BUILD
-		std::cout << "NEW L " << newL.x << ", " << newL.y << ", " << newL.z << std::endl;
-		std::cout << "MAGNITUDE: " << d << std::endl;
-		std::cout << l0.x << ", " << l0.y << ", " << l0.z << std::endl;
+		// std::cout << "NEW L " << newL.x << ", " << newL.y << ", " << newL.z << std::endl;
+		// std::cout << "MAGNITUDE: " << d << std::endl;
+		// std::cout << l0.x << ", " << l0.y << ", " << l0.z << std::endl;
 		#endif
 
 		return (l0 + newL);
@@ -100,8 +100,11 @@ void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 
 	// front bottom
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 
 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
@@ -113,8 +116,11 @@ void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 
 	// right bottom
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 
 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
@@ -126,8 +132,11 @@ void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 
 	// back bottom
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 
 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
@@ -139,8 +148,11 @@ void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 
 	// left bottom
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
+	m->vertices[m->vertice_sz].color = PINK;
 
 
 	m->position = p;
@@ -460,10 +472,12 @@ void set_color(Mesh *m, glm::vec3 color)
 
 	if(m->VAO != CurrentVertexArray)
 	{
-		// glBindVertexArray(m->VAO);
-		// CurrentVertexArray = m->VAO;
-		glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
+		glBindVertexArray(m->VAO);
+		CurrentVertexArray = m->VAO;
+		
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex)*m->vertice_sz, (GLfloat *)&m->vertices[0]);
 

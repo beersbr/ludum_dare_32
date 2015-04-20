@@ -134,6 +134,53 @@ int main(int argc, char *argv[])
 				}
 			}
 
+			if(event.type == SDL_MOUSEMOTION)
+			{
+				std::cout << "x: " << event.motion.x << " y: " << event.motion.y << std::endl;
+
+
+				glm::vec3 ray = glm::unProject(glm::vec3(event.motion.x, 600 - event.motion.y, 0.f),
+											   masterGame.View(),
+											   masterGame.projection,
+											   glm::vec4(0, 0, 800, 600));
+
+				glm::vec3 ray2 = glm::unProject(glm::vec3(event.motion.x, 600 - event.motion.y, 1.f),
+											   masterGame.View(),
+											   masterGame.projection,
+											   glm::vec4(0, 0, 800, 600));
+
+
+				glm::vec3 ip = intersectionPlanePoint(NY,
+													  glm::vec3(1.f, 25.0f, 1.f),
+													  ray,
+													  glm::normalize(ray2 - ray));
+
+
+				static int last_index = -1;
+
+				float sx = ip.x / 50.f;
+				float sz = ip.z / 50.f;
+				sx = floor(sx + 5);
+				sz = floor(sz + 5);
+				int index = (int)(sx + sz*10);
+
+
+				std::cout << "INDEX: " << index << std::endl;
+				if(last_index != index)
+				{
+					if(index >= 0 && index <= 100)
+					{
+						if(last_index >= 0)
+							set_color(&gameState.world[last_index].mesh, DARK_BLUE);
+
+						set_color(&gameState.world[index].mesh, CYAN);
+						last_index = index;
+					}
+				}
+
+
+			}
+
 			if(event.type == SDL_MOUSEBUTTONDOWN)
 			{
 				if( event.button.button == SDL_BUTTON_RIGHT )
@@ -196,7 +243,6 @@ int main(int argc, char *argv[])
 
 					prefab_diamond(&gameState.entities[gameState.entity_sz].mesh, glm::vec3(ox, 55.f, oz), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
 					gameState.entity_sz += 1;
-
 
 					// TODO(brett): Check the collision of the meshes just to test. Then give D some new meshes for the ai and towers.
 				}

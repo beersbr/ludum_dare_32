@@ -26,7 +26,9 @@
 #define PINK   glm::vec3(1.0f, 0.0f, 1.0f)
 #define YELLOW glm::vec3(1.0f, 1.0f, 0.0f)
 
-#define DARK_BLUE glm::vec3(0.0f, 0.0f, 0.5f)
+#define DARK_BLUE   glm::vec3(0.0f, 0.0f, 0.5f)
+
+#define DARK_DARK_BLUE   glm::vec3(0.0f, 0.0f, 0.25f)
  
 #define ZERO  glm::vec3(0.0f, 0.0f, 0.0f)
 
@@ -50,7 +52,6 @@ typedef struct
 	GLuint *shader_id;
 	Vertex vertices[512];
 	int vertice_sz;
-	// std::vector<Vertex> vertices;
 
 	glm::vec3 position;
 	glm::vec3 rotation;
