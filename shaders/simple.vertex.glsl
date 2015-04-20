@@ -17,12 +17,10 @@ void main()
 	// vec3 light = normalize(vec3(-1.0f, 1.0f, 1.0f));
 	vec3 light = normalize(lightpos);
 
-	mat4 normalMat = transpose(inverse(model));
-	// vec3 n_normal = (normalMat * vec4(normal, 1.0)).xyz;
-	vec3 n_normal = normal;
+	mat4 normalMat = mat4(inverse(transpose(mat3(model))));
+	vec4 n_normal = normalize(normalMat * vec4(normal, 0.0));
 
-	float cosTheta = dot(light, n_normal);
-	vec3 l_color = cosTheta * vec3(1.0, 1.0, 1.0);
+	float cosTheta = dot(light, n_normal.xyz);
 
 	vertex_color = color * cosTheta;
 	gl_Position = projection * view * model * vec4(position, 1.0);

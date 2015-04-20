@@ -18,6 +18,8 @@ typedef struct
     glm::vec3 pos;
     glm::vec3 dir;
     glm::vec3 vel;
+    glm::vec3 rotate;
+    glm::vec3 rotate_vel;
 } Phys;
 
 typedef struct

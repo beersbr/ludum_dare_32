@@ -168,10 +168,10 @@ int main(int argc, char *argv[])
 				std::cout << "INDEX: " << index << std::endl;
 				if(last_index != index)
 				{
-					if(index >= 0 && index <= 100)
+					if(index >= 0 && index < 100)
 					{
 						if(last_index >= 0)
-							set_color(&gameState.world[last_index].mesh, DARK_BLUE);
+							set_color(&gameState.world[last_index].mesh, BLUE);
 
 						set_color(&gameState.world[index].mesh, CYAN);
 						last_index = index;
@@ -242,6 +242,7 @@ int main(int argc, char *argv[])
 					float oz = gameState.world[index].mesh.position.z;
 
 					prefab_diamond(&gameState.entities[gameState.entity_sz].mesh, glm::vec3(ox, 55.f, oz), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+					gameState.entities[gameState.entity_sz].phys.rotate_vel = glm::vec3(0.f, 2.f, 0.f);
 					gameState.entity_sz += 1;
 
 					// TODO(brett): Check the collision of the meshes just to test. Then give D some new meshes for the ai and towers.
@@ -275,9 +276,19 @@ int main(int argc, char *argv[])
 		{
 			glBindVertexArray(gameState.entities[i].mesh.VAO);
 
+
+
 			glm::mat4 model = glm::mat4();
+			gameState.entities[i].phys.rotate += gameState.entities[i].phys.rotate_vel;
+			gameState.entities[i].mesh.rotation = gameState.entities[i].phys.rotate;
+
+			
+
 			model = glm::translate(model, gameState.entities[i].mesh.position);
 			model = glm::scale(model, gameState.entities[i].mesh.scale);
+
+			model = glm::rotate(model, gameState.entities[i].mesh.rotation.y, gameState.entities[i].mesh.rotation);
+			
 
 			glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, (GLfloat *)&model[0]);
 
