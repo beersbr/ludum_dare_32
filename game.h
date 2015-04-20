@@ -90,9 +90,16 @@ typedef struct
     GameEntity entities[512];
     int entity_sz;
 
-    std::list<GameEntity *> pool;
+    std::list<GameEntity *> ready;
+    std::list<GameEntity *> live;
+    std::list<GameEntity *> dead;
+
 
 } GameState;
+
+void InitGameState(GameState *gs);
+
+GameEntity *SpawnEntity(GameState *gs, Mesh *m, glm::vec3 pos, glm::vec3 vel);
 
 class Game
 {

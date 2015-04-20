@@ -27,6 +27,7 @@
 #define YELLOW glm::vec3(1.0f, 1.0f, 0.0f)
 
 #define DARK_BLUE   glm::vec3(0.0f, 0.0f, 0.5f)
+#define DARK_RED    glm::vec3(0.5f, 0.0f, 0.0f)
 
 #define DARK_DARK_BLUE   glm::vec3(0.0f, 0.0f, 0.25f)
  
@@ -57,6 +58,8 @@ typedef struct
 	glm::vec3 rotation;
 	glm::vec3 scale;
 } Mesh;
+
+typedef void (*MeshPrefabFn)(Mesh *m, glm::vec3, glm::vec3, glm::vec3, GLuint *);
 
 bool intersectPlane(const glm::vec3 &n, const glm::vec3 &p0, const glm::vec3& l0, const glm::vec3 &l, float &t);
 

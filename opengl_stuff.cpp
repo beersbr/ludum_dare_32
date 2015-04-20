@@ -31,6 +31,20 @@ glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const 
 	return ZERO;
 }
 
+void prefab_sphere(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
+{
+	m->vertice_sz = 0;
+
+	m->vertices[m->vertice_sz].position   = glm::vec3( 0.0f,  0.5f,  0.0f);
+	m->vertices[m->vertice_sz].color = DARK_RED; 
+	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = DARK_RED;
+	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
+	m->vertices[m->vertice_sz].color = DARK_RED;
+
+	m->vertice_sz++;
+}
+
 void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
 {
 	m->vertice_sz = 0;
@@ -162,6 +176,8 @@ void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 	m->vertices[m->vertice_sz-1].normal = c;
 	m->vertices[m->vertice_sz-0].normal = c;
 
+	m->vertice_sz += 1;
+
 	m->position = p;
 	m->rotation = r;
 	m->scale = s;
@@ -249,6 +265,7 @@ void prefab_pyramid(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shad
 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
 	m->vertices[m->vertice_sz].normal = NY;
 	m->vertices[m->vertice_sz].color = BLACK;
+	m->vertice_sz += 1;
 
 	m->position = p;
 	m->rotation = r;

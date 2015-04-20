@@ -1,11 +1,30 @@
 #include "game.h"
 
+void InitGameState(GameState *gs)
+{
+    for(int i = 0; i < 512; i++)
+    {
+        gs->ready.push_back(&gs->entities[i]);
+    }
+}
+
+
+GameEntity *SpawnEntity(GameState *gs, MeshPrefabFn prefab_mesh, GLuint *shader, glm::vec3 pos, glm::vec3 vel)
+{
+    GameEntity *e = gs->ready.back();
+    gs->ready.pop_back();
+    gs->live.push_back(e);
+
+    prefab_mesh(&(e->mesh), pos, ZERO, glm::vec3(35.f, 35.f, 35.f), shader);
+
+    return e;
+}
 
 Game::Game()
 {
 
     projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
-    camera_position = glm::vec3(0.0f, 0.0f, 5.0f);
+    camera_position = glm::vec3(0.0f, 3.0f, 5.0f);
     camera_lookat = ZERO;
 
     view = View();
