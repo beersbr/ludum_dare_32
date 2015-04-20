@@ -3,6 +3,9 @@
 #include <SDL2/sdl.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include <list>
+
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
@@ -70,6 +73,24 @@ typedef struct
     unsigned char button;
     bool isDown;
 } MouseState;
+
+typedef struct
+{
+    Mesh mesh;
+    Phys phys;
+    int id;
+
+} GameEntity;
+
+typedef struct
+{
+    GameEntity world[100];
+    GameEntity entities[512];
+    int entity_sz;
+
+    std::list<GameEntity *> pool;
+
+} GameState;
 
 class Game
 {

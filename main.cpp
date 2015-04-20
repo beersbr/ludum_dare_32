@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
 	SDL_Window *window = SDL_CreateWindow("ludum dare 32",
 										  SDL_WINDOWPOS_UNDEFINED,
@@ -47,36 +47,32 @@ int main(int argc, char *argv[])
 	SDL_Event event;
 
 	glEnable(GL_MULTISAMPLE);
-
 	glEnable(GL_DEPTH_TEST);
 
 	GLuint shader = load_shader_program("shaders/simple.vertex.glsl", "shaders/simple.fragment.glsl");
 	glUseProgram(shader);
 
-	std::vector<Mesh> mesh_list;
+	// NOTE(brett): do this once right now as we only have one shader;
+	GLint ProjectionLocation = glGetUniformLocation(shader, "projection");
+	GLint ViewLocation = glGetUniformLocation(shader, "view");
+	GLint ModelLocation = glGetUniformLocation(shader, "model");
+	GLint LightLocation = glGetUniformLocation(shader, "lightpos");
 
-	Mesh *mesh_map[10][10];
+	float angle = 90.0f;
 
+	GameState gameState = {};
+	int counter = 0;
 	for(int i = -5; i < 5; i++)
 	{
 		for(int j = -5; j < 5; j++)
 		{
 			Mesh m = {};
-			prefab_cube(&m, glm::vec3(i*50.f+25.f, 0.f, j*50.f+25.f), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
-			mesh_list.push_back(m);
+			prefab_cube(&m, glm::vec3(j*50.f+25.f, 0.f, i*50.f+25.f), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+			gameState.world[counter].mesh = m;
+			counter += 1;
 		}
 	}
 
-	#ifdef DEBUG_BUILD
-	std::cout << "Mesh List Size: " << mesh_list.size() << std::endl;
-	#endif
-
-	// NOTE(brett): do this once right now as we only have one shader;
-	GLint ProjectionLocation = glGetUniformLocation(shader, "projection");
-	GLint ViewLocation = glGetUniformLocation(shader, "view");
-	GLint ModelLocation = glGetUniformLocation(shader, "model");
-
-	float angle = 90.0f;
 
 	while(masterGame.IsRunning())
 	{
@@ -93,17 +89,22 @@ int main(int argc, char *argv[])
 					ProjectionLocation = glGetUniformLocation(shader, "projection");
 					ViewLocation = glGetUniformLocation(shader, "view");
 					ModelLocation = glGetUniformLocation(shader, "model");
+					LightLocation = glGetUniformLocation(shader, "lightpos");
+
 
 					#ifdef DEBUG_BUILD
 					std::cout << "ProjectionLocation: " << ProjectionLocation 	<< std::endl;
 					std::cout << "ViewLocation: " 		<< ViewLocation 		<< std::endl;
 					std::cout << "ModelLocation: " 		<< ModelLocation 		<< std::endl;
+					std::cout << "LightLocation: " 		<< LightLocation 		<< std::endl;
 					#endif
 				}
 
 				if(event.key.keysym.sym == SDLK_w)
 				{
 					masterGame.camera_position.y += 1;
+					if(masterGame.camera_position.y > 8)
+						masterGame.camera_position.y = 8;
 				}
 
 				if(event.key.keysym.sym == SDLK_s)
@@ -164,7 +165,7 @@ int main(int argc, char *argv[])
 					#endif
 
 					glm::vec3 ip = intersectionPlanePoint(NY,
-														  glm::vec3(1.0f, 0.0f, 1.f),
+														  glm::vec3(1.f, 25.0f, 1.f),
 														  ray,
 														  glm::normalize(ray2 - ray));
 
@@ -172,6 +173,29 @@ int main(int argc, char *argv[])
 					std::cout << "point: " << ip.x << ", " << ip.y  << ", " << ip.z << std::endl;
 					#endif
 
+
+					float sx = ip.x / 50.f;
+					float sz = ip.z / 50.f;
+					sx = floor(sx + 5);
+					sz = floor(sz + 5);
+					int index = (int)(sx + sz*10);
+
+					if(index < 0 || index > 100)
+						break;
+
+					#ifdef DEBUG_BUILD
+					std::cout << "INDEX: " << index << std::endl;
+					std::cout << "sx: " << sx << " , sz: " << sz << std::endl;
+					std::cout << "POSITION: " << gameState.world[index].mesh.position.x << std::endl;
+					#endif
+
+					// set_color(&(gameState.world[index].mesh), YELLOW);
+
+					float ox = gameState.world[index].mesh.position.x;
+					float oz = gameState.world[index].mesh.position.z;
+
+					prefab_diamond(&gameState.entities[gameState.entity_sz].mesh, glm::vec3(ox, 55.f, oz), ZERO, glm::vec3(50.f, 50.f, 50.f), &shader);
+					gameState.entity_sz += 1;
 
 
 					// TODO(brett): Check the collision of the meshes just to test. Then give D some new meshes for the ai and towers.
@@ -183,20 +207,35 @@ int main(int argc, char *argv[])
 		glClearColor(0.2, 0.0, 0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		for(int i = 0; i < mesh_list.size(); i++)
-		{
-			glBindVertexArray(mesh_list[i].VAO);
+		glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, (GLfloat *)&masterGame.projection[0]);
+		glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, (GLfloat *)&masterGame.View()[0]);
+		glUniform3fv(LightLocation, 1, (GLfloat *)&masterGame.camera_position[0]);
 
-			glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, (GLfloat *)&masterGame.projection[0]);
-			glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, (GLfloat *)&masterGame.View()[0]);
+		// note(Brett): world size is 100
+		for(int i = 0; i < 100; i++)
+		{
+			glBindVertexArray(gameState.world[i].mesh.VAO);
 
 			glm::mat4 model = glm::mat4();
-			model = glm::translate(model, mesh_list[i].position);
-			model = glm::scale(model, mesh_list[i].scale);
+			model = glm::translate(model, gameState.world[i].mesh.position);
+			model = glm::scale(model, gameState.world[i].mesh.scale);
 
 			glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, (GLfloat *)&model[0]);
 
-			glDrawArrays(GL_TRIANGLES, 0, mesh_list[i].vertice_sz);
+			glDrawArrays(GL_TRIANGLES, 0, gameState.world[i].mesh.vertice_sz);
+		}
+
+		for(int i = 0; i < gameState.entity_sz; i++)
+		{
+			glBindVertexArray(gameState.entities[i].mesh.VAO);
+
+			glm::mat4 model = glm::mat4();
+			model = glm::translate(model, gameState.entities[i].mesh.position);
+			model = glm::scale(model, gameState.entities[i].mesh.scale);
+
+			glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, (GLfloat *)&model[0]);
+
+			glDrawArrays(GL_TRIANGLES, 0, gameState.entities[i].mesh.vertice_sz);
 		}
 
 		SDL_GL_SwapWindow(window);
