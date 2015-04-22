@@ -51,7 +51,7 @@ typedef struct
 
 typedef struct
 {
-    TowerType type; //Type of tower, AKA what kind of tower to put into the world
+    TowerType type;     //Type of tower, AKA what kind of tower to put into the world
     AmmoType ammo;     //Ammo type this tower shoots.
     Enemy* target;     //Enemy this tower targets, careful as it can be NULL
     Phys physics;
@@ -83,19 +83,6 @@ typedef struct
     int id;
 
 } GameEntity;
-
-typedef struct
-{
-    GameEntity world[100];
-    GameEntity entities[512];
-    int entity_sz;
-
-    std::list<GameEntity *> ready;
-    std::list<GameEntity *> live;
-    std::list<GameEntity *> dead;
-
-
-} GameState;
 
 void InitGameState(GameState *gs);
 

@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
 					ModelLocation = glGetUniformLocation(shader, "model");
 					LightLocation = glGetUniformLocation(shader, "lightpos");
 
-
 					#ifdef DEBUG_BUILD
 					std::cout << "ProjectionLocation: " << ProjectionLocation 	<< std::endl;
 					std::cout << "ViewLocation: " 		<< ViewLocation 		<< std::endl;
@@ -136,9 +135,6 @@ int main(int argc, char *argv[])
 
 			if(event.type == SDL_MOUSEMOTION)
 			{
-				std::cout << "x: " << event.motion.x << " y: " << event.motion.y << std::endl;
-
-
 				glm::vec3 ray = glm::unProject(glm::vec3(event.motion.x, 600 - event.motion.y, 0.f),
 											   masterGame.View(),
 											   masterGame.projection,
@@ -154,7 +150,6 @@ int main(int argc, char *argv[])
 													  glm::vec3(1.f, 25.0f, 1.f),
 													  ray,
 													  glm::normalize(ray2 - ray));
-
 
 				static int last_index = -1;
 
@@ -276,13 +271,9 @@ int main(int argc, char *argv[])
 		{
 			glBindVertexArray(gameState.entities[i].mesh.VAO);
 
-
-
 			glm::mat4 model = glm::mat4();
 			gameState.entities[i].phys.rotate += gameState.entities[i].phys.rotate_vel;
 			gameState.entities[i].mesh.rotation = gameState.entities[i].phys.rotate;
-
-			
 
 			model = glm::translate(model, gameState.entities[i].mesh.position);
 			model = glm::scale(model, gameState.entities[i].mesh.scale);
