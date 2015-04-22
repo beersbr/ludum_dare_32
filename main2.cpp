@@ -139,10 +139,10 @@ int main(int argc, char *argv[])
 					game.keyboard_state[event.key.keysym.sym] = true;
 
 					if(event.key.keysym.sym == SDLK_w)
-						game.camera_pos.y += 1, game.camera_dir.y += 1;
+						game.camera_pos.y += 1;
 
 					if(event.key.keysym.sym == SDLK_s)
-						game.camera_pos.y -= 1, game.camera_dir.y -= 1;
+						game.camera_pos.y -= 1;
 
 					break;
 				}
