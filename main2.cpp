@@ -1,3 +1,12 @@
+#ifdef _WINDOWS_
+#include <Windows.h>
+//#pragma message ("using windows")
+#endif
+
+#ifndef _WINDOWS_
+#include <sys/mman.h>
+#endif
+
 #include <SDL2/sdl.h>
 #include <GL/glew.h>
 #include <SDL2/sdl_opengl.h>
@@ -5,7 +14,6 @@
 #include <unordered_map>
 #include <iostream>
 #include <string>
-#include <sys/mman.h>
 #include <list>
 
 #include <glm/glm.hpp>
@@ -42,7 +50,7 @@ typedef struct
 	updateFn update;
 	renderFn render;
 
-	bool running = false;
+	bool running;
 
 	std::unordered_map<SDL_Keycode, bool> keyboard_state;
 	std::unordered_map<SDL_Keycode, bool> keyboard_pressed;
@@ -87,10 +95,21 @@ int main(int argc, char *argv[])
 	// GameState setup
 	GameState game = {};
 	game.memory_sz = MEGABYTE(512);
+
+	#ifndef _WINDOWS_
 	game.memory = mmap(0, game.memory_sz,
 						  PROT_READ | PROT_WRITE,
 						  MAP_ANON | MAP_PRIVATE,
 						  -1, 0);
+	#endif
+
+	#ifdef _WINDOWS_
+	game.memory = VirtualAlloc(NULL,
+							   game.memory_sz,
+							   MEM_COMMIT | MEM_RESERVE,
+							   PAGE_READWRITE );
+	#endif
+
 	game.running = true;
 
 	game.projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
