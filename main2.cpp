@@ -30,6 +30,8 @@
 typedef void (*updateFn)(void *, float dt);
 typedef void (*renderFn)(void *, float dt);
 
+typedef void (*instantiateEntityFn)(Entity *);
+
 typedef struct
 {
 	void *memory;
@@ -58,6 +60,19 @@ typedef struct
 	glm::vec2 mouse_pos;
 
 } GameState;
+
+
+// NOTE(brett): this method can fail and if it does it returns NULL
+static Entity *GetEntity(GameState *game_state)
+{
+	if(game_state->entity_pool_limbo.size() == 0)
+		return NULL;
+
+	Entity *e = game_state->entity_pool_limbo.back();
+	game_state->entity_pool_limbo.pop_back();
+	game_state->entity_pool_alive.push_back(e);
+	return e;
+}
 
 int main(int argc, char *argv[])
 {
@@ -136,39 +151,37 @@ int main(int argc, char *argv[])
 	glUseProgram(shader.id);
 
 	// Create an entity
-	Entity *e = game.entity_pool_limbo.back();
+	Entity *e = GetEntity(&game);
 	e->position = glm::vec3(0.f, 0.f, 0.f);
 	e->scale = 	 glm::vec3(50.f, 50.f, 50.f);
 	e->rotation = glm::vec3(0.f, 0.f, 0.f);
 	prefab_cube(&e->mesh, &shader);
-	game.entity_pool_limbo.pop_back();
-	game.entity_pool_alive.push_back(e);
 
 	// create a grid
-	Entity *e2 = game.entity_pool_limbo.back();
-	e2->position = glm::vec3(0.f, 0.f, 0.f);
-	e2->scale =	  glm::vec3(1.f, 1.f, 1.f);
-	e2->rotation = glm::vec3(0.f, 0.f, 0.f);
+	// Entity *e2 = game.entity_pool_limbo.back();
+	// e2->position = glm::vec3(0.f, 0.f, 0.f);
+	// e2->scale =	  glm::vec3(1.f, 1.f, 1.f);
+	// e2->rotation = glm::vec3(0.f, 0.f, 0.f);
 
-	std::vector<Vertex> verts;
-	float size = 100.f;
-	float line_dist_scale = 50.f;
-	for(int z = 0; z <= size; ++z)
-	for(int x = 0; x <= size; ++x)
-	{
-		// left to right
-		verts.push_back({ glm::vec3( -(size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-		verts.push_back({ glm::vec3(  (size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	// std::vector<Vertex> verts;
+	// float size = 100.f;
+	// float line_dist_scale = 50.f;
+	// for(int z = 0; z <= size; ++z)
+	// for(int x = 0; x <= size; ++x)
+	// {
+	// 	// left to right
+	// 	verts.push_back({ glm::vec3( -(size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	// 	verts.push_back({ glm::vec3(  (size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
 
-		// back to front
-		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f, -(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// 	// back to front
+	// 	verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f, -(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	// 	verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-	custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
+	// custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
 
-	game.entity_pool_limbo.pop_back();
-	game.entity_pool_alive.push_back(e2);
+	// game.entity_pool_limbo.pop_back();
+	// game.entity_pool_alive.push_back(e2);
 
 
 	SDL_Event event;
