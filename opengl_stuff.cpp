@@ -248,6 +248,30 @@
 // 	glEnableVertexAttribArray(2);
 // }
 
+void custom_mesh(Mesh *m, std::vector<Vertex> *verts, GLenum method, Shader *shader)
+{
+	m->shader = shader;
+	m->draw_method = method;
+
+	m->vertices = *verts;
+
+	glGenVertexArrays(1, &m->VAO);
+	glBindVertexArray(m->VAO);
+
+	glGenBuffers(1, &m->VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*m->vertices.size(), (GLfloat *)&m->vertices[0], GL_STREAM_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+}
+
 void prefab_cube(Mesh *m, Shader *shader)
 {
 	m->shader = shader;
@@ -300,6 +324,7 @@ void prefab_cube(Mesh *m, Shader *shader)
 	m->vertices.push_back({ glm::vec3(-0.5f, -0.5f,  0.5f), NY, WHITE, glm::vec2(0.f, 0.f) });
 	m->vertices.push_back({ glm::vec3( 0.5f, -0.5f,  0.5f), NY, WHITE, glm::vec2(0.f, 0.f) });
 
+	m->draw_method = GL_TRIANGLES;
 
 	glGenVertexArrays(1, &m->VAO);
 	glBindVertexArray(m->VAO);
@@ -364,9 +389,9 @@ glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const 
 		float d = glm::length(newL);
 
 		#ifdef DEBUG_BUILD
-		// std::cout << "NEW L " << newL.x << ", " << newL.y << ", " << newL.z << std::endl;
-		// std::cout << "MAGNITUDE: " << d << std::endl;
-		// std::cout << l0.x << ", " << l0.y << ", " << l0.z << std::endl;
+		std::cout << "NEW L " << newL.x << ", " << newL.y << ", " << newL.z << std::endl;
+		std::cout << "MAGNITUDE: " << d << std::endl;
+		std::cout << l0.x << ", " << l0.y << ", " << l0.z << std::endl;
 		#endif
 
 		return (l0 + newL);
@@ -378,11 +403,19 @@ void reload_shader(Shader *shader, std::string uniforms[], int uniform_sz)
 {
 	if(uniform_sz == 0)
 	{
+		shader->id = load_shader_program(shader->vertex_path, shader->fragment_path);
+		glUseProgram(shader->id);
+
 		for(std::unordered_map<std::string, GLint>::iterator it = shader->uniforms.begin();
 			it != shader->uniforms.end();
 			++it)
 		{
-			shader->uniforms[(*it).first] = glGetUniformLocation(shader->id, (GLchar *)&(*it).first);
+			GLint pos = glGetUniformLocation(shader->id, (GLchar *)(*it).first.c_str());
+
+			#if DEBUG_BUILD
+			std::cout << (*it).first << ": " << pos << std::endl;
+			#endif
+			shader->uniforms[(*it).first] = pos;
 		}
 	}
 	else
@@ -396,6 +429,8 @@ void reload_shader(Shader *shader, std::string uniforms[], int uniform_sz)
 
 void create_shader(Shader *shader, std::string vertex_path, std::string fragment_path, std::string uniforms[], int uniform_sz)
 {
+	shader->vertex_path = vertex_path;
+	shader->fragment_path = fragment_path;
 	shader->id = load_shader_program(vertex_path, fragment_path);
 	reload_shader(shader, uniforms, uniform_sz);
 }

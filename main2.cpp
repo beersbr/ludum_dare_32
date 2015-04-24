@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
 
-	
+	std::vector<Vertex> grid;
 
 	// GameState setup
 	GameState game = {};
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 	game.running = true;
 
 	game.projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
-	game.camera_pos = glm::vec3(0.f, 0.f, -10.f);
+	game.camera_pos = glm::vec3(0.f, 0.8f, -1.f);
 	game.camera_dir = glm::vec3(0.f, 0.f, 0.f);
 	game.view = glm::lookAt(game.camera_pos, game.camera_dir, PY);
 
@@ -144,6 +144,32 @@ int main(int argc, char *argv[])
 	game.entity_pool_limbo.pop_back();
 	game.entity_pool_alive.push_back(e);
 
+	// create a grid
+	Entity *e2 = game.entity_pool_limbo.back();
+	e2->position = glm::vec3(0.f, 0.f, 0.f);
+	e2->scale =	  glm::vec3(1.f, 1.f, 1.f);
+	e2->rotation = glm::vec3(0.f, 0.f, 0.f);
+
+	std::vector<Vertex> verts;
+	float size = 100.f;
+	float line_dist_scale = 50.f;
+	for(int z = 0; z <= size; ++z)
+	for(int x = 0; x <= size; ++x)
+	{
+		// left to right
+		verts.push_back({ glm::vec3( -(size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+		verts.push_back({ glm::vec3(  (size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+
+		// back to front
+		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f, -(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	}
+
+	custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
+
+	game.entity_pool_limbo.pop_back();
+	game.entity_pool_alive.push_back(e2);
+
 
 	SDL_Event event;
 
@@ -158,10 +184,30 @@ int main(int argc, char *argv[])
 					game.keyboard_state[event.key.keysym.sym] = true;
 
 					if(event.key.keysym.sym == SDLK_w)
-						game.camera_pos.y += 1;
+					{
+						game.camera_pos.z += 5.f;
+						game.camera_dir.z += 5.f;
+					}
 
-					if(event.key.keysym.sym == SDLK_s)
-						game.camera_pos.y -= 1;
+					if(event.key.keysym.sym == SDLK_s){
+						game.camera_pos.z -= 5.f;
+						game.camera_dir.z -= 5.f;
+					}
+
+					if(event.key.keysym.sym == SDLK_UP)
+					{
+						game.camera_pos.y += 0.1f;
+					}
+
+					if(event.key.keysym.sym == SDLK_DOWN)
+					{
+						game.camera_pos.y -= 0.1f;
+					}
+
+					if(event.key.keysym.sym == SDLK_l)
+					{
+						reload_shader(&shader, {}, 0);
+					}
 
 					break;
 				}
@@ -202,11 +248,15 @@ int main(int argc, char *argv[])
 		glClearColor(0.1f, 0.0f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// draw a grid in the x/z coord
+
 		game.view = glm::lookAt(game.camera_pos, game.camera_dir, PY);
 
 		glUniformMatrix4fv(shader.uniforms["projection"], 1, GL_FALSE, (GLfloat *)&game.projection[0]);
 		glUniformMatrix4fv(shader.uniforms["view"]		, 1, GL_FALSE, (GLfloat *)&game.view[0]);
-		glUniform3fv(shader.uniforms["lightpos"], 1, (GLfloat *)&game.camera_pos);
+
+		glm::vec3 light = game.camera_pos-game.camera_dir;
+		glUniform3fv(shader.uniforms["lightpos"], 1, (GLfloat *)&light);
 
 		for(std::list<Entity *>::iterator it = game.entity_pool_alive.begin();
 			it != game.entity_pool_alive.end();
@@ -220,7 +270,7 @@ int main(int argc, char *argv[])
 
 			glUniformMatrix4fv(shader.uniforms["model"], 1, GL_FALSE, (GLfloat *)&model[0]);
 
-			glDrawArrays(GL_TRIANGLES, 0, (*it)->mesh.vertices.size());
+			glDrawArrays((*it)->mesh.draw_method, 0, (*it)->mesh.vertices.size());
 		}
 
 		glBindVertexArray(0);

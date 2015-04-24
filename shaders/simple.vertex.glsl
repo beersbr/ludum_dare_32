@@ -16,12 +16,19 @@ void main()
 {
 	// vec3 light = normalize(vec3(-1.0f, 1.0f, 1.0f));
 	vec3 light = normalize(lightpos);
+	if(normal == vec3(0.0f, 0.0f, 0.0f))
+	{
+		vertex_color = color;
+		gl_Position = projection * view * model * vec4(position, 1.0);
+	}
+	else
+	{
+		mat4 normalMat = mat4(inverse(transpose(mat3(model))));
+		vec4 n_normal = normalize(normalMat * vec4(normal, 0.0));
 
-	mat4 normalMat = mat4(inverse(transpose(mat3(model))));
-	vec4 n_normal = normalize(normalMat * vec4(normal, 0.0));
+		float cos_light = dot(light, n_normal.xyz);
 
-	float cosTheta = dot(light, n_normal.xyz);
-
-	vertex_color = color * cosTheta;
-	gl_Position = projection * view * model * vec4(position, 1.0);
+		vertex_color = color * cos_light;
+		gl_Position = projection * view * model * vec4(position, 1.0);
+	}
 }

@@ -43,6 +43,8 @@ static GLuint CurrentVertexArray;
 typedef struct
 {
 	GLuint id;
+	std::string vertex_path;
+	std::string fragment_path;
 	std::unordered_map<std::string, GLint> uniforms;
 } Shader;
 
@@ -71,6 +73,8 @@ typedef struct
 	// std::vector<Face> faces;
 	std::vector<Vertex> vertices;
 	int vertice_sz;
+
+	GLenum draw_method;
 
 } Mesh;
 
