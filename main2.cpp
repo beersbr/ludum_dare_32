@@ -65,8 +65,15 @@ typedef struct
 // NOTE(brett): this method can fail and if it does it returns NULL
 static Entity *GetEntity(GameState *game_state)
 {
+	#if DEBUG_BUILD
+
+	if(!game_state)
+		return NULL;
+
 	if(game_state->entity_pool_limbo.size() == 0)
 		return NULL;
+
+	#endif
 
 	Entity *e = game_state->entity_pool_limbo.back();
 	game_state->entity_pool_limbo.pop_back();
@@ -158,30 +165,27 @@ int main(int argc, char *argv[])
 	prefab_cube(&e->mesh, &shader);
 
 	// create a grid
-	// Entity *e2 = game.entity_pool_limbo.back();
-	// e2->position = glm::vec3(0.f, 0.f, 0.f);
-	// e2->scale =	  glm::vec3(1.f, 1.f, 1.f);
-	// e2->rotation = glm::vec3(0.f, 0.f, 0.f);
+	Entity *e2 = GetEntity(&game);
+	e2->position = glm::vec3(0.f, 0.f, 0.f);
+	e2->scale =	  glm::vec3(1.f, 1.f, 1.f);
+	e2->rotation = glm::vec3(0.f, 0.f, 0.f);
 
-	// std::vector<Vertex> verts;
-	// float size = 100.f;
-	// float line_dist_scale = 50.f;
-	// for(int z = 0; z <= size; ++z)
-	// for(int x = 0; x <= size; ++x)
-	// {
-	// 	// left to right
-	// 	verts.push_back({ glm::vec3( -(size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-	// 	verts.push_back({ glm::vec3(  (size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	std::vector<Vertex> verts;
+	float size = 100.f;
+	float line_dist_scale = 50.f;
+	for(int z = 0; z <= size; ++z)
+	for(int x = 0; x <= size; ++x)
+	{
+		// left to right
+		verts.push_back({ glm::vec3( -(size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+		verts.push_back({ glm::vec3(  (size*line_dist_scale/2.f), 0.f, (z*line_dist_scale)-(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
 
-	// 	// back to front
-	// 	verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f, -(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-	// 	verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
-	// }
+		// back to front
+		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f, -(size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
+	}
 
-	// custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
-
-	// game.entity_pool_limbo.pop_back();
-	// game.entity_pool_alive.push_back(e2);
+	custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
 
 
 	SDL_Event event;
@@ -189,7 +193,7 @@ int main(int argc, char *argv[])
 	while(game.running)
 	{
 		while(SDL_PollEvent(&event))
-		{
+		{	
 			switch(event.type)
 			{
 				case SDL_KEYDOWN:
@@ -198,23 +202,43 @@ int main(int argc, char *argv[])
 
 					if(event.key.keysym.sym == SDLK_w)
 					{
-						game.camera_pos.z += 5.f;
-						game.camera_dir.z += 5.f;
+						game.camera_pos.z += 1.f;
+						game.camera_dir.z += 1.f;
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
 					}
 
 					if(event.key.keysym.sym == SDLK_s){
-						game.camera_pos.z -= 5.f;
-						game.camera_dir.z -= 5.f;
+						game.camera_pos.z -= 1.f;
+						game.camera_dir.z -= 1.f;
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
 					}
 
 					if(event.key.keysym.sym == SDLK_UP)
 					{
 						game.camera_pos.y += 0.1f;
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
 					}
 
 					if(event.key.keysym.sym == SDLK_DOWN)
 					{
 						game.camera_pos.y -= 0.1f;
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
 					}
 
 					if(event.key.keysym.sym == SDLK_l)

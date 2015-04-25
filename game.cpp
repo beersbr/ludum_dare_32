@@ -23,7 +23,7 @@ GameEntity *SpawnEntity(GameState *gs, MeshPrefabFn prefab_mesh, GLuint *shader,
 Game::Game()
 {
 
-    projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
+    projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -1.0f, 1.f);
     camera_position = glm::vec3(0.0f, 3.0f, 5.0f);
     camera_lookat = ZERO;
 
