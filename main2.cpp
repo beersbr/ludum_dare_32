@@ -17,6 +17,7 @@
 #include <list>
 
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "opengl_stuff.h"
@@ -135,7 +136,7 @@ int main(int argc, char *argv[])
 	game.running = true;
 
 	game.projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
-	game.camera_pos = glm::vec3(0.f, 0.8f, -1.f);
+	game.camera_pos = glm::vec3(0.f, 0.8f, 1.f);
 	game.camera_dir = glm::vec3(0.f, 0.f, 0.f);
 	game.view = glm::lookAt(game.camera_pos, game.camera_dir, PY);
 
@@ -160,9 +161,9 @@ int main(int argc, char *argv[])
 	// Create an entity
 	Entity *e = GetEntity(&game);
 	e->position = glm::vec3(0.f, 0.f, 0.f);
-	e->scale = 	 glm::vec3(50.f, 50.f, 50.f);
+	e->scale = 	 glm::vec3(550.f, 550.f, 550.f);
 	e->rotation = glm::vec3(0.f, 0.f, 0.f);
-	prefab_cube(&e->mesh, &shader);
+	prefab_sphere(&e->mesh, &shader);
 
 	// create a grid
 	Entity *e2 = GetEntity(&game);
@@ -185,13 +186,21 @@ int main(int argc, char *argv[])
 		verts.push_back({ glm::vec3( (x*line_dist_scale)-(size*line_dist_scale/2.f), 0.f,  (size*line_dist_scale/2.f)), ZERO, WHITE, glm::vec2(0.f, 0.f) });
 	}
 
-	custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
+	// custom_mesh(&e2->mesh, &verts, GL_LINES, &shader);
 
 
 	SDL_Event event;
 
+	double current_ticks = SDL_GetTicks();
+	double previous_ticks = current_ticks;
+	double elapsed_ticks = 0;
+
 	while(game.running)
 	{
+		previous_ticks = current_ticks;
+		current_ticks = SDL_GetTicks();
+		elapsed_ticks = current_ticks - previous_ticks;
+
 		while(SDL_PollEvent(&event))
 		{	
 			switch(event.type)
@@ -241,10 +250,50 @@ int main(int argc, char *argv[])
 						#endif
 					}
 
+					if(event.key.keysym.sym == SDLK_RIGHT)
+					{
+						glm::vec3 look = game.camera_pos - game.camera_dir;
+
+						look = glm::rotate({ look.x, 0.f, look.z }, 1.5f, PY);
+						game.camera_pos = { look.x, game.camera_pos.y, look.z };
+
+						// game.camera_pos.x -= 0.1f;
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
+					}
+
+					if(event.key.keysym.sym == SDLK_LEFT)
+					{
+						glm::vec3 look = game.camera_pos - game.camera_dir;
+
+						look = glm::rotate({ look.x, 0.f, look.z }, -1.5f, PY);
+						game.camera_pos = { look.x, game.camera_pos.y, look.z };
+
+						#ifdef DEBUG_BUILD
+						std::cout << "Camera Position: ";
+						std::cout << game.camera_pos.x << ", " << game.camera_pos.y << ", " << game.camera_pos.z << std::endl;
+						#endif
+					}
+
 					if(event.key.keysym.sym == SDLK_l)
 					{
 						reload_shader(&shader, {}, 0);
 					}
+
+					if(event.key.keysym.sym == SDLK_g)
+					{
+						glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+					}
+
+
+					if(event.key.keysym.sym == SDLK_f)
+					{
+						glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+					}
+
 
 					break;
 				}

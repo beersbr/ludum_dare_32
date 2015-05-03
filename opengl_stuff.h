@@ -2,6 +2,7 @@
 #define __OPENGL_STUFF__
 
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <fstream>
 #include <SDL2/SDL_opengl.h>
@@ -118,6 +119,10 @@ glm::vec3 intersectionPlanePoint(const glm::vec3 &n, const glm::vec3 &p0, const 
 // void prefab_cube(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id);
 
 // void set_color(Mesh *m, glm::vec3 color);
+
+std::vector<glm::vec3> sub_triangles(std::vector<glm::vec3> triangles, int levels);
+
+std::vector<glm::vec3> subdivide_triangle(glm::vec3 A, glm::vec3 B, glm::vec3 C);
 
 void reload_shader(Shader *shader, std::string uniforms[], int uniform_sz = 0);
 
