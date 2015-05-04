@@ -291,7 +291,7 @@ void prefab_sphere(Mesh *m, Shader *shader)
 	float radius = glm::distance(A-CENTER, CENTER);
 
 	std::cout << "RADIUS: " << radius << std::endl;
-	radius = 0.5f;
+	radius = 1.f;
 
 	// for(auto i = triangles.begin(); i < triangles.end(); ++i)
 	// {
@@ -309,7 +309,7 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		    F
 	*/
 
-	int subs = 4;
+	int subs = 6;
 
 	// top back face sub divided triangles
 	std::vector<glm::vec3> triangle = {E, A, B};
@@ -328,13 +328,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B);
 		glm::vec3 real_C = CENTER + (normal_C);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
-
-		std::cout << "UV: " << uvA << std::endl;
-		std::cout << "UV: " << uvB << std::endl;
-		std::cout << "UV: " << uvC << std::endl;
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -359,9 +355,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -385,9 +381,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -411,9 +407,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -437,9 +433,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -463,9 +459,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -489,9 +485,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -515,9 +511,9 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
-		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
-		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), (normal_A.y + 1.f)/2.f};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), (normal_B.y + 1.f)/2.f};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), (normal_C.y + 1.f)/2.f};
 
 		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
 		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
@@ -756,13 +752,14 @@ GLuint load_image_1d(std::string image_path)
     glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_1D,
+    std::cout << glm::vec2(image->w, image->h) << std::endl;
+
+    glTexImage1D(GL_TEXTURE_1D,
     			 0,
     			 GL_RGBA,
     			 image->w,
-    			 image->h,
     			 0,
-    			 GL_RGBA,
+    			 GL_BGRA,
     			 GL_UNSIGNED_BYTE,
     			 image->pixels);
 
