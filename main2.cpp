@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 	// Create an entity
 	Entity *e = GetEntity(&game);
 	e->position = glm::vec3(0.f, 0.f, 0.f);
-	e->scale = 	 glm::vec3(550.f, 550.f, 550.f);
+	e->scale = 	 glm::vec3(250.f, 250.f, 250.f);
 	e->rotation = glm::vec3(0.f, 0.f, 0.f);
 	prefab_sphere(&e->mesh, &shader);
 

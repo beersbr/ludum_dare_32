@@ -529,7 +529,7 @@ void prefab_sphere(Mesh *m, Shader *shader)
 	float radius = glm::distance(A-CENTER, CENTER);
 
 	std::cout << "RADIUS: " << radius << std::endl;
-	radius = 0.5f;
+	radius = 1.f;
 
 	// each element will have 3 vectors forming a triangle
 	std::vector<std::vector<glm::vec3> > triangles;
@@ -546,11 +546,11 @@ void prefab_sphere(Mesh *m, Shader *shader)
 	triangles.push_back({ F, A, B });
 	triangles.push_back({ F, A, B });
 
-	for(auto i = triangles.begin(); i < triangles.end(); ++i)
-	{
-		std::vector<glm::vec3> sub_divided = subdivide_triangle((*i)[0], (*i)[1], (*i)[2]);
+	// for(auto i = triangles.begin(); i < triangles.end(); ++i)
+	// {
+	// 	std::vector<glm::vec3> sub_divided = subdivide_triangle((*i)[0], (*i)[1], (*i)[2]);
 
-	}
+	// }
 
 	/*
                E
@@ -584,166 +584,162 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
 		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
 		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-
-		std::cout << std::endl;
 	}
 
 
-	// top right face sub divided triangles
-	triangle = {E, B, C};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// // top right face sub divided triangles
+	// triangle = {E, B, C};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-	// top front
-	triangle = {E, C, D};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// // top front
+	// triangle = {E, C, D};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-	// top left
-	triangle = {E, D, A};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// // top left
+	// triangle = {E, D, A};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-	// bottom back
-	triangle = {F, A, B};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// // bottom back
+	// triangle = {F, A, B};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-		std::cout << std::endl;
-	}
+	// // bottom right
+	// triangle = {F, B, C};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-	// bottom right
-	triangle = {F, B, C};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// // bottom front
+	// triangle = {F, C, D};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-	// bottom front
-	triangle = {F, C, D};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// // bottom left
+	// triangle = {F, D, A};
+	// tries = sub_triangles(triangle, subs);
+	// for(auto i = tries.begin(); i != tries.end(); i += 3)
+	// {
+	// 	glm::vec3 vA = (*i);
+	// 	glm::vec3 vB = (*(i+1));
+	// 	glm::vec3 vC = (*(i+2));
 
-	// bottom left
-	triangle = {F, D, A};
-	tries = sub_triangles(triangle, subs);
-	for(auto i = tries.begin(); i != tries.end(); i += 3)
-	{
-		glm::vec3 vA = (*i);
-		glm::vec3 vB = (*(i+1));
-		glm::vec3 vC = (*(i+2));
+	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
+	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
+	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-		glm::vec3 normal_A = glm::normalize(vA - CENTER);
-		glm::vec3 normal_B = glm::normalize(vB - CENTER);
-		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
+	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
+	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		glm::vec3 real_A = CENTER + (normal_A * radius);
-		glm::vec3 real_B = CENTER + (normal_B * radius);
-		glm::vec3 real_C = CENTER + (normal_C * radius);
-
-		m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	}
+	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
+	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+	// }
 
 	glGenVertexArrays(1, &m->VAO);
 	glBindVertexArray(m->VAO);
@@ -805,11 +801,6 @@ void prefab_sphere(Mesh *m, Shader *shader)
 
 std::vector<glm::vec3> sub_triangles(std::vector<glm::vec3> triangles, int levels)
 {
-	
-	#ifdef DEBUG_BUILD
-	std::cout << "level: " << levels << std::endl;
-	#endif
-
 	if(levels > 0)
 	{
 		std::vector<glm::vec3> new_verts;
@@ -817,7 +808,13 @@ std::vector<glm::vec3> sub_triangles(std::vector<glm::vec3> triangles, int level
 		{
 			std::vector<glm::vec3> verts = subdivide_triangle(*i, *(i+1), *(i+2));
 			for(auto j = verts.begin(); j != verts.end(); ++j)
-				new_verts.push_back(*j);
+			{
+				glm::vec3 v = (*j);
+				glm::vec3 normal = glm::normalize(v - ZERO);
+				glm::vec3 real = ZERO + (normal * 1.f);
+				
+				new_verts.push_back(real);
+			}
 		}
 		return sub_triangles(new_verts, --levels);
 	}
