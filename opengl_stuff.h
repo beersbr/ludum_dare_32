@@ -9,9 +9,12 @@
 #include <GL/glew.h>
 #include <vector>
 #include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 #include <map>
 #include <unordered_map>
 
+#define GOLDEN ((sqrt(5.f)-1.f)/2.f)
+#define SQRT1  (sqrtf(1.f))
 
 #define PX glm::vec3( 1.0f,  0.0f,  0.0f)
 #define NX glm::vec3(-1.0f,  0.0f,  0.0f)

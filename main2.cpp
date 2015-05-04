@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
 	game.running = true;
 
 	game.projection = glm::ortho(-400.f, 400.f, -300.f, 300.f, -500.f, 500.f);
-	game.camera_pos = glm::vec3(0.f, 0.8f, 1.f);
+	game.camera_pos = glm::vec3(0.f, 0.8f, -1.f);
 	game.camera_dir = glm::vec3(0.f, 0.f, 0.f);
 	game.view = glm::lookAt(game.camera_pos, game.camera_dir, PY);
 
@@ -254,7 +254,7 @@ int main(int argc, char *argv[])
 					{
 						glm::vec3 look = game.camera_pos - game.camera_dir;
 
-						look = glm::rotate({ look.x, 0.f, look.z }, 1.5f, PY);
+						look = glm::rotate({ look.x, 0.f, look.z }, 6.5f, PY);
 						game.camera_pos = { look.x, game.camera_pos.y, look.z };
 
 						// game.camera_pos.x -= 0.1f;
@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
 					{
 						glm::vec3 look = game.camera_pos - game.camera_dir;
 
-						look = glm::rotate({ look.x, 0.f, look.z }, -1.5f, PY);
+						look = glm::rotate({ look.x, 0.f, look.z }, -6.5f, PY);
 						game.camera_pos = { look.x, game.camera_pos.y, look.z };
 
 						#ifdef DEBUG_BUILD
@@ -331,7 +331,7 @@ int main(int argc, char *argv[])
 		
 
 		// NOTE(brett): Render code goes here
-		glClearColor(0.1f, 0.0f, 0.2f, 1.0f);
+		glClearColor(0.1f, 0.0f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// draw a grid in the x/z coord
