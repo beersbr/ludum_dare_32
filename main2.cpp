@@ -8,6 +8,7 @@
 #endif
 
 #include <SDL2/sdl.h>
+#include <SDL2_image/SDL_image.h>
 #include <GL/glew.h>
 #include <SDL2/sdl_opengl.h>
 #include <stddef.h>
@@ -89,6 +90,8 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
+	IMG_Init(IMG_INIT_PNG);
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -149,7 +152,7 @@ int main(int argc, char *argv[])
 
 	// Shader Setup
 	Shader shader = {};
-	std::string u[] = { "projection", "view", "model", "lightpos" }; 
+	std::string u[] = { "projection", "view", "model", "lightpos", "jupiter1D" }; 
 	create_shader(&shader, 
 				  "shaders/simple.vertex.glsl",
 				  "shaders/simple.fragment.glsl",
@@ -164,6 +167,8 @@ int main(int argc, char *argv[])
 	e->scale = 	 glm::vec3(250.f, 250.f, 250.f);
 	e->rotation = glm::vec3(0.f, 0.f, 0.f);
 	prefab_sphere(&e->mesh, &shader);
+
+	GLuint texture = load_image_1d("images/1d_jupiter.png");
 
 	// create a grid
 	Entity *e2 = GetEntity(&game);
@@ -341,6 +346,7 @@ int main(int argc, char *argv[])
 		glUniformMatrix4fv(shader.uniforms["projection"], 1, GL_FALSE, (GLfloat *)&game.projection[0]);
 		glUniformMatrix4fv(shader.uniforms["view"]		, 1, GL_FALSE, (GLfloat *)&game.view[0]);
 
+		glUniform1i(shader.uniforms["jupiter1D"], 0); 
 		glm::vec3 light = game.camera_pos-game.camera_dir;
 		glUniform3fv(shader.uniforms["lightpos"], 1, (GLfloat *)&light);
 

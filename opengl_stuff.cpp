@@ -6,253 +6,13 @@ std::ostream& operator << (std::ostream& os, const glm::vec3& v)
 	return os;
 }
 
-// void prefab_diamond(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
-// {
-// 	m->vertice_sz = 0;
-// 	// front top
-// 	m->vertices[m->vertice_sz].position   = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW;
-
-// 	glm::vec3 a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	glm::vec3 b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	glm::vec3 c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// right top 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = YELLOW;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW;
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// back top
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// left top
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = YELLOW; 
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// front bottom
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// right bottom
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// back bottom
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	// left bottom
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f, -0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f,  0.0f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = PINK;
-
-// 	a = m->vertices[m->vertice_sz-1].position - m->vertices[m->vertice_sz-2].position;
-// 	b = m->vertices[m->vertice_sz-0].position - m->vertices[m->vertice_sz-2].position;
-// 	c = glm::normalize(glm::cross(a, b));
-
-// 	m->vertices[m->vertice_sz-2].normal = c;
-// 	m->vertices[m->vertice_sz-1].normal = c;
-// 	m->vertices[m->vertice_sz-0].normal = c;
-
-// 	m->vertice_sz += 1;
-
-// 	m->position = p;
-// 	m->rotation = r;
-// 	m->scale = s;
-// 	m->shader_id = shader_id;
-
-// 	// GLuint VAO;
-// 	glGenVertexArrays(1, &m->VAO);
-// 	glBindVertexArray(m->VAO);
-
-// 	CurrentVertexArray = m->VAO;
-
-// 	// GLuint VBO;
-// 	glGenBuffers(1, &m->VBO);
-// 	glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
-
-// 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*m->vertice_sz, (GLfloat *)&m->vertices[0], GL_STREAM_DRAW);
-// 	glEnableVertexAttribArray(0);
-// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
-// 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
-// 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
-
-// 	glEnableVertexAttribArray(0);
-// 	glEnableVertexAttribArray(1);
-// 	glEnableVertexAttribArray(2);
-// }
+std::ostream& operator << (std::ostream& os, const glm::vec2& v)
+{
+	os << "( " << v.x << ", " << v.y << " )";
+	return os;
+}
 
 
-// void prefab_pyramid(Mesh *m, glm::vec3 p, glm::vec3 r, glm::vec3 s, GLuint *shader_id)
-// {
-// 	m->vertice_sz = 0;
-
-// 	// front face
-// 	m->vertices[m->vertice_sz].position   = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = WHITE;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = WHITE;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = WHITE;
-
-// 	// right face
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = BLUE;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = BLUE;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = BLUE;
-
-// 	// back face
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = RED;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = RED;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = RED;
-
-// 	// left face
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.0f,  0.5f,  0.0f);
-// 	m->vertices[m->vertice_sz].color = CYAN;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].color = CYAN;
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].color = CYAN;
-
-// 	// bottom face
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f, -0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-
-// 	m->vertices[++m->vertice_sz].position = glm::vec3(-0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-
-// 	m->vertices[++m->vertice_sz].position = glm::vec3( 0.5f, -0.5f,  0.5f);
-// 	m->vertices[m->vertice_sz].normal = NY;
-// 	m->vertices[m->vertice_sz].color = BLACK;
-// 	m->vertice_sz += 1;
-
-// 	m->position = p;
-// 	m->rotation = r;
-// 	m->scale = s;
-// 	m->shader_id = shader_id;
-
-// 	// GLuint VAO;
-// 	glGenVertexArrays(1, &m->VAO);
-// 	glBindVertexArray(m->VAO);
-
-// 	CurrentVertexArray = m->VAO;
-
-// 	// GLuint VBO;
-// 	glGenBuffers(1, &m->VBO);
-// 	glBindBuffer(GL_ARRAY_BUFFER, m->VBO);
-
-// 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*m->vertice_sz, (GLfloat *)&m->vertices[0], GL_STREAM_DRAW);
-// 	glEnableVertexAttribArray(0);
-// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
-// 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
-// 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
-
-// 	glEnableVertexAttribArray(0);
-// 	glEnableVertexAttribArray(1);
-// 	glEnableVertexAttribArray(2);
-// }
 
 void custom_mesh(Mesh *m, std::vector<Vertex> *verts, GLenum method, Shader *shader)
 {
@@ -517,16 +277,16 @@ void prefab_sphere(Mesh *m, Shader *shader)
 	glm::vec3 CENTER = ZERO;
 
 	// around the diamon
-	glm::vec3 A = glm::vec3( -cosf(45.f * PI/180.f),  0.0f, -sinf(45.f * PI/180.f) );
-	glm::vec3 B = glm::vec3(  cosf(45.f * PI/180.f),  0.0f, -sinf(45.f * PI/180.f) );
-	glm::vec3 C = glm::vec3(  cosf(45.f * PI/180.f),  0.0f,  sinf(45.f * PI/180.f) );
-	glm::vec3 D = glm::vec3( -cosf(45.f * PI/180.f),  0.0f,  sinf(45.f * PI/180.f) );
+	glm::vec3 A = glm::normalize(glm::vec3( -cosf(45.f * PI/180.f),  0.0f, -sinf(45.f * PI/180.f) ) );
+	glm::vec3 B = glm::normalize(glm::vec3(  cosf(45.f * PI/180.f),  0.0f, -sinf(45.f * PI/180.f) ) );
+	glm::vec3 C = glm::normalize(glm::vec3(  cosf(45.f * PI/180.f),  0.0f,  sinf(45.f * PI/180.f) ) );
+	glm::vec3 D = glm::normalize(glm::vec3( -cosf(45.f * PI/180.f),  0.0f,  sinf(45.f * PI/180.f) ) );
 
 	std::cout << "LENGTH: " << glm::length2(A) << std::endl;
 
 	// top and bottom
-	glm::vec3 E = glm::vec3(  0.0f,  1.f,  0.0f );
-	glm::vec3 F = glm::vec3(  0.0f, -1.f,  0.0f );
+	glm::vec3 E = glm::normalize(glm::vec3(  0.0f,  1.f,  0.0f ) );
+	glm::vec3 F = glm::normalize(glm::vec3(  0.0f, -1.f,  0.0f ) );
 
 	float radius = glm::distance(A-CENTER, CENTER);
 
@@ -568,9 +328,17 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B);
 		glm::vec3 real_C = CENTER + (normal_C);
 
-		m->vertices.push_back({ vA, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vB, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vC, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+
+		std::cout << "UV: " << uvA << std::endl;
+		std::cout << "UV: " << uvB << std::endl;
+		std::cout << "UV: " << uvC << std::endl;
+
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
 	}
 
 
@@ -591,9 +359,13 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ vA, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vB, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vC, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
 	}
 
 	// top front
@@ -613,9 +385,13 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ vA, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vB, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vC, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
 	}
 
 	// top left
@@ -635,98 +411,118 @@ void prefab_sphere(Mesh *m, Shader *shader)
 		glm::vec3 real_B = CENTER + (normal_B * radius);
 		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-		m->vertices.push_back({ vA, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vB, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-		m->vertices.push_back({ vC, normal_C, WHITE, glm::vec2(0.f, 0.f) });
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
 	}
 
-	// // bottom back
-	// triangle = {F, A, B};
-	// tries = sub_triangles(triangle, subs);
-	// for(auto i = tries.begin(); i != tries.end(); i += 3)
-	// {
-	// 	glm::vec3 vA = (*i);
-	// 	glm::vec3 vB = (*(i+1));
-	// 	glm::vec3 vC = (*(i+2));
+	// bottom back
+	triangle = {F, A, B};
+	tries = sub_triangles(triangle, subs);
+	for(auto i = tries.begin(); i != tries.end(); i += 3)
+	{
+		glm::vec3 vA = (*i);
+		glm::vec3 vB = (*(i+1));
+		glm::vec3 vC = (*(i+2));
 
-	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
-	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
-	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
+		glm::vec3 normal_A = glm::normalize(vA - CENTER);
+		glm::vec3 normal_B = glm::normalize(vB - CENTER);
+		glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
-	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
-	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
+		glm::vec3 real_A = CENTER + (normal_A * radius);
+		glm::vec3 real_B = CENTER + (normal_B * radius);
+		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	// }
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
 
-	// // bottom right
-	// triangle = {F, B, C};
-	// tries = sub_triangles(triangle, subs);
-	// for(auto i = tries.begin(); i != tries.end(); i += 3)
-	// {
-	// 	glm::vec3 vA = (*i);
-	// 	glm::vec3 vB = (*(i+1));
-	// 	glm::vec3 vC = (*(i+2));
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
+	}
 
-	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
-	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
-	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
+	// bottom right
+	triangle = {F, B, C};
+	tries = sub_triangles(triangle, subs);
+	for(auto i = tries.begin(); i != tries.end(); i += 3)
+	{
+		glm::vec3 vA = (*i);
+		glm::vec3 vB = (*(i+1));
+		glm::vec3 vC = (*(i+2));
 
-	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
-	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
-	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
+		glm::vec3 normal_A = glm::normalize(vA - CENTER);
+		glm::vec3 normal_B = glm::normalize(vB - CENTER);
+		glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	// }
+		glm::vec3 real_A = CENTER + (normal_A * radius);
+		glm::vec3 real_B = CENTER + (normal_B * radius);
+		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-	// // bottom front
-	// triangle = {F, C, D};
-	// tries = sub_triangles(triangle, subs);
-	// for(auto i = tries.begin(); i != tries.end(); i += 3)
-	// {
-	// 	glm::vec3 vA = (*i);
-	// 	glm::vec3 vB = (*(i+1));
-	// 	glm::vec3 vC = (*(i+2));
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
 
-	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
-	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
-	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
+	}
 
-	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
-	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
-	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
+	// bottom front
+	triangle = {F, C, D};
+	tries = sub_triangles(triangle, subs);
+	for(auto i = tries.begin(); i != tries.end(); i += 3)
+	{
+		glm::vec3 vA = (*i);
+		glm::vec3 vB = (*(i+1));
+		glm::vec3 vC = (*(i+2));
 
-	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	// }
+		glm::vec3 normal_A = glm::normalize(vA - CENTER);
+		glm::vec3 normal_B = glm::normalize(vB - CENTER);
+		glm::vec3 normal_C = glm::normalize(vC - CENTER);
 
-	// // bottom left
-	// triangle = {F, D, A};
-	// tries = sub_triangles(triangle, subs);
-	// for(auto i = tries.begin(); i != tries.end(); i += 3)
-	// {
-	// 	glm::vec3 vA = (*i);
-	// 	glm::vec3 vB = (*(i+1));
-	// 	glm::vec3 vC = (*(i+2));
+		glm::vec3 real_A = CENTER + (normal_A * radius);
+		glm::vec3 real_B = CENTER + (normal_B * radius);
+		glm::vec3 real_C = CENTER + (normal_C * radius);
 
-	// 	glm::vec3 normal_A = glm::normalize(vA - CENTER);
-	// 	glm::vec3 normal_B = glm::normalize(vB - CENTER);
-	// 	glm::vec3 normal_C = glm::normalize(vC - CENTER);
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
 
-	// 	glm::vec3 real_A = CENTER + (normal_A * radius);
-	// 	glm::vec3 real_B = CENTER + (normal_B * radius);
-	// 	glm::vec3 real_C = CENTER + (normal_C * radius);
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
+	}
 
-	// 	m->vertices.push_back({ real_A, normal_A, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_B, normal_B, WHITE, glm::vec2(0.f, 0.f) });
-	// 	m->vertices.push_back({ real_C, normal_C, WHITE, glm::vec2(0.f, 0.f) });
-	// }
+	// bottom left
+	triangle = {F, D, A};
+	tries = sub_triangles(triangle, subs);
+	for(auto i = tries.begin(); i != tries.end(); i += 3)
+	{
+		glm::vec3 vA = (*i);
+		glm::vec3 vB = (*(i+1));
+		glm::vec3 vC = (*(i+2));
+
+		glm::vec3 normal_A = glm::normalize(vA - CENTER);
+		glm::vec3 normal_B = glm::normalize(vB - CENTER);
+		glm::vec3 normal_C = glm::normalize(vC - CENTER);
+
+		glm::vec3 real_A = CENTER + (normal_A * radius);
+		glm::vec3 real_B = CENTER + (normal_B * radius);
+		glm::vec3 real_C = CENTER + (normal_C * radius);
+
+		glm::vec2 uvA = {atan2f(normal_A.z, normal_A.x)/(2.f*PI), asinf(normal_A.y)/PI};
+		glm::vec2 uvB = {atan2f(normal_B.z, normal_B.x)/(2.f*PI), asinf(normal_B.y)/PI};
+		glm::vec2 uvC = {atan2f(normal_C.z, normal_C.x)/(2.f*PI), asinf(normal_C.y)/PI};
+
+		m->vertices.push_back({ vA, normal_A, WHITE, uvA });
+		m->vertices.push_back({ vB, normal_B, WHITE, uvB });
+		m->vertices.push_back({ vC, normal_C, WHITE, uvC });
+	}
 
 	glGenVertexArrays(1, &m->VAO);
 	glBindVertexArray(m->VAO);
@@ -739,10 +535,12 @@ void prefab_sphere(Mesh *m, Shader *shader)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, position)));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, normal)));
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, color)));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, uv)));
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 
 }
 
@@ -777,24 +575,17 @@ std::vector<glm::vec3> subdivide_triangle(glm::vec3 A, glm::vec3 B, glm::vec3 C)
 	glm::vec3 E = {};
 	glm::vec3 F = {};
 
-	// get the sides
-	glm::vec3 line_AB = B - A;
-	glm::vec3 line_BC = C - B;
-	glm::vec3 line_CA = A - C;
+	// get mid points
+	glm::vec3 h_AB = (B+A) / 2.f;
+	glm::vec3 h_BC = (C+B) / 2.f;
+	glm::vec3 h_CA = (A+C) / 2.f;
 
-	glm::vec3 h_AB = line_AB / 2.f;
-	glm::vec3 h_BC = line_BC / 2.f;
-	glm::vec3 h_CA = line_CA / 2.f;
-
-	float radius = 1.f;
-
-	D = glm::normalize(A + h_AB) * radius;
-	E = glm::normalize(B + h_BC) * radius;
-	F = glm::normalize(C + h_CA) * radius;
+	D = glm::normalize(h_AB) * 1.0f;
+	E = glm::normalize(h_BC) * 1.0f;
+	F = glm::normalize(h_CA) * 1.0f;
 
 	std::vector<glm::vec3> new_triangels;
 
-	// get distance from O of A
 	new_triangels.push_back(A);
 	new_triangels.push_back(D);
 	new_triangels.push_back(F);
@@ -947,6 +738,56 @@ GLuint compile_shader_program(std::string path, GLenum type)
 
 	return shader;
 }
+
+GLuint load_image_1d(std::string image_path)
+{
+
+	SDL_Surface *image = IMG_Load(image_path.c_str());
+
+	GLuint texture_id;
+	glGenTextures(1, &texture_id);
+
+	glActiveTexture(GL_TEXTURE0 + 0);
+	glBindTexture(GL_TEXTURE_1D, texture_id);
+
+	glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+
+    glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_1D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_1D,
+    			 0,
+    			 GL_RGBA,
+    			 image->w,
+    			 image->h,
+    			 0,
+    			 GL_RGBA,
+    			 GL_UNSIGNED_BYTE,
+    			 image->pixels);
+
+    SDL_FreeSurface(image);
+
+    return texture_id;
+}
+
+GLuint load_image_2d(std::string image)
+{
+	GLuint texture_id;
+	glGenTextures(1, &texture_id);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+
+	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+
+    // glTexImage2D(GL_TEXTURE_2D, 0 ,GL_RGBA,image->w,image ->h,0,GL_RGBA,GL_UNSIGNED_BYTE,image->pixels);
+    
+    return texture_id;
+}
+
 
 std::ifstream::pos_type get_filesize(std::string filename)
 {

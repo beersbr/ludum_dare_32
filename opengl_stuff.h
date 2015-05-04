@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/sdl_opengl.h>
 #include <GL/glew.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -39,7 +40,7 @@
  
 #define ZERO  glm::vec3(0.0f, 0.0f, 0.0f)
 
-#define PI 3.14159265
+#define PI 3.14159265f
 
 static GLuint CurrentProgram;
 static GLuint CurrentVertexArray;
@@ -134,6 +135,10 @@ void create_shader(Shader *shader, std::string vertex_path, std::string fragment
 GLuint load_shader_program(std::string vertex_shader_path, std::string fragment_shader_path);
 
 GLuint compile_shader_program(std::string path, GLenum type);
+
+GLuint load_image_1d(std::string image);
+
+GLuint load_image_2d(std::string image);
 
 static std::ifstream::pos_type get_filesize(std::string filename);
 

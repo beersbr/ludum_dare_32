@@ -3,6 +3,7 @@
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in vec3 color;
+layout(location = 3) in vec2 uv;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -11,10 +12,11 @@ uniform mat4 model;
 uniform vec3 lightpos;
 
 out vec3 vertex_color;
+out vec2 UV;
 
 void main()
 {
-	// vec3 light = normalize(vec3(-1.0f, 1.0f, 1.0f));
+	UV = uv;
 	vec3 light = normalize(lightpos);
 	if(normal == vec3(0.0f, 0.0f, 0.0f))
 	{
